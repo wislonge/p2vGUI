@@ -881,7 +881,7 @@ create_conversion_dialog (struct config *config)
                 0, 1, 5, 6, GTK_FILL, GTK_FILL, 1, 1);
   set_alignment (of_label, 1., 0.5);
   of_combo = gtk_combo_box_text_new ();
-  gtk_label_set_mnemonic_widget (GTK_LABEL (oa_label), of_combo);
+  gtk_label_set_mnemonic_widget (GTK_LABEL (of_label), of_combo);
   gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (of_combo),
                                   "qcow2");
   gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (of_combo),
