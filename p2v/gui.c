@@ -887,13 +887,23 @@ create_conversion_dialog (struct config *config)
   gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (of_combo),
                                   "raw");
 
-  if( STREQ(config->output_format,"qcow2"))
+ //int qcow2judge=strcmp(config->output_format,"qcow2")?0:1;
+  char* outputformat; 
+  if (config && config->output)
+    outputformat = strdup (config->output);
+  else
+    outputformat = gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (o_combo));
+
+ int qcow2judge=strcmp(outputformat,"qcow2")?0:1;
+  printf("william judge is %d",qcow2judge);
+ if(!qcow2judge)
     gtk_combo_box_set_active (GTK_COMBO_BOX (of_combo), 0);
-else
+ else
     gtk_combo_box_set_active (GTK_COMBO_BOX (of_combo), 1);
 
   table_attach (output_tbl, of_combo,
                 1, 2, 5, 6, GTK_FILL, GTK_FILL, 1, 1);
+
 #endif
   gtk_box_pack_start (GTK_BOX (output_vbox), output_tbl, TRUE, TRUE, 0);
   gtk_container_add (GTK_CONTAINER (output_frame), output_vbox);
@@ -2044,6 +2054,18 @@ start_conversion_clicked (GtkWidget *w, gpointer data)
       config->output_allocation = OUTPUT_ALLOCATION_PREALLOCATED;
     free (str2);
   }*/
+//william start
+  config->output_format="qcow2";
+  *str2 = gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (of_combo));
+  printf("william debuge of_combo is %s",str2);
+    if (str2) {
+        if (STREQ (str2, "qcow2"))
+             config->output_format = "qcow2";
+        else 
+             config->output_format = "raw";
+                            free (str2);
+     } 
+//wiliam end/
 
   free (config->output_connection);
   config->output_connection = NULL;
@@ -2053,9 +2075,10 @@ start_conversion_clicked (GtkWidget *w, gpointer data)
   else
     config->output_connection = NULL;*/
 
-  free (config->output_format);
-  config->output_format = "qcow2";
-  /*str = gtk_entry_get_text (GTK_ENTRY (of_entry));
+ //william free (config->output_format);
+  //william config->output_format = "qcow2";
+  
+/*str = gtk_entry_get_text (GTK_ENTRY (of_entry));
   if (str && STRNEQ (str, ""))
     config->output_format = strdup (str);
   else
