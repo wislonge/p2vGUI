@@ -2118,10 +2118,15 @@ start_conversion_thread (void *data)
 //william debug info
   dlg = gtk_message_dialog_new (GTK_WINDOW (run_dlg),
                                 GTK_DIALOG_DESTROY_WITH_PARENT,
-                                GTK_MESSAGE_ERROR,
+                                GTK_MESSAGE_INFO,
                                 GTK_BUTTONS_OK,
-                                _("outputformat: %s"), copy->output_format);
-  gtk_window_set_title (GTK_WINDOW (dlg), _("format info"));
+                                _("server: %s\n,username: %s\n,identity_url: %s\n,outputformat: %s")
+				, copy->server
+                                , copy->username
+                                , copy->identity_url
+                                , copy->output_format
+						);
+  gtk_window_set_title (GTK_WINDOW (dlg), _("Migration Info"));
   gtk_dialog_run (GTK_DIALOG (dlg));
   gtk_widget_destroy (dlg);
 //william end
