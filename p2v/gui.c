@@ -887,7 +887,7 @@ create_conversion_dialog (struct config *config)
   gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (of_combo),
                                   "raw");
 
-  if( STREQ(config->output_format,"qcow2")
+  if( STREQ(config->output_format,"qcow2"))
     gtk_combo_box_set_active (GTK_COMBO_BOX (of_combo), 0);
 else
     gtk_combo_box_set_active (GTK_COMBO_BOX (of_combo), 1);
