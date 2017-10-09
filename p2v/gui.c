@@ -909,12 +909,12 @@ create_conversion_dialog (struct config *config)
   gtk_container_add (GTK_CONTAINER (output_frame), output_vbox);
 
 //information function opened by william
-  info_frame = gtk_frame_new (_("Information"));
-  gtk_container_set_border_width (GTK_CONTAINER (info_frame), 4);
-  info_label = gtk_label_new (NULL);
-  set_alignment (info_label, 0.1, 0.5);
-  set_info_label ();
-  gtk_container_add (GTK_CONTAINER (info_frame), info_label);
+//  info_frame = gtk_frame_new (_("Information"));
+//  gtk_container_set_border_width (GTK_CONTAINER (info_frame), 4);
+//  info_label = gtk_label_new (NULL);
+//  set_alignment (info_label, 0.1, 0.5);
+//  set_info_label ();
+//  gtk_container_add (GTK_CONTAINER (info_frame), info_label);
 //william end
 //
   /* The right column: select devices to be converted. */
@@ -2081,7 +2081,10 @@ start_conversion_clicked (GtkWidget *w, gpointer data)
     config->output_format = NULL;*/
 
   free (config->output_storage);
-  config->output_storage = "phy-stor-pool";
+  if(STREQ(config->output,"glance"))
+      config->output_storage=NULL;
+  else
+      config->output_storage = "phy-stor-pool";
   /*str = gtk_entry_get_text (GTK_ENTRY (os_entry));
   if (str && STRNEQ (str, ""))
     config->output_storage = strdup (str);
@@ -2116,19 +2119,20 @@ start_conversion_thread (void *data)
   int r;
    GtkWidget *dlg;
 //william debug info
-  dlg = gtk_message_dialog_new (GTK_WINDOW (run_dlg),
+#if 0 
+ dlg = gtk_message_dialog_new (GTK_WINDOW (run_dlg),
                                 GTK_DIALOG_DESTROY_WITH_PARENT,
                                 GTK_MESSAGE_INFO,
                                 GTK_BUTTONS_OK,
-                                _("server: %s\n,username: %s\n,identity_url: %s\n,outputformat: %s")
+                                _("server: %s\n,username: %s\n,outputformat: %s")
 				, copy->server
                                 , copy->username
-                                , copy->identity_url
                                 , copy->output_format
 						);
   gtk_window_set_title (GTK_WINDOW (dlg), _("Migration Info"));
   gtk_dialog_run (GTK_DIALOG (dlg));
   gtk_widget_destroy (dlg);
+#endif
 //william end
 
   r = start_conversion (copy, notify_ui_callback);
